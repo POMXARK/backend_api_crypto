@@ -5,86 +5,31 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\EthereumResource;
 use App\Models\Bittrex_ETHUSD_d;
-use App\Models\Ethereum;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+
 
 class EthereumController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * вернуть данные между датами или всё
      *
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return AnonymousResourceCollection
      */
     public function index(Request $request)
     {
-        $date_start =    ($request->input('date_start')) ;
-        $date_end =   ($request->input('date_end')) ;
-        if (!$date_start or !$date_end){
-            return EthereumResource::collection(Bittrex_ETHUSD_d::all());
+        $date_start = ($request->input('date_start'));
+        $date_end = ($request->input('date_end'));
+
+        if (!$date_start or !$date_end) {
+            return EthereumResource::collection(Bittrex_ETHUSD_d::limit(20000)->orderBy('Timestamp','asc')->get()); //20000
         } else {
-            return EthereumResource::collection(Bittrex_ETHUSD_d::all()->whereBetween('date',array($date_start,$date_end))->all());
+            return EthereumResource::collection(
+                Bittrex_ETHUSD_d::whereBetween('date',array($date_start,$date_end))->orderBy('Timestamp','asc')->limit(20000)->get()
+            );
         }
-
-        //
-        //if (!$date_start or !$date_end){
-        //
-        //} else {
-        //
-        //}
-
-    }
-
-
-
-
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Request $request)
-    {
-
-        //return  $request->input('date');
-        //return new EthereumResource(Ethereum::all()->where('date', )->first());
-
-        //return new $request- . EthereumResource(Ethereum::all()->where('date',$date )->first());
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }
+
+// ?date_start=2017-11-14&date_end=2017-11-15

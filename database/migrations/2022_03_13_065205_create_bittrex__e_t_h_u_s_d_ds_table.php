@@ -23,7 +23,7 @@ class CreateBittrexETHUSDDsTable extends Migration
             $table->unsignedFloat('Low');
             $table->unsignedFloat('Close');
             $table->unsignedFloat('ETH');
-            $table->unsignedBigInteger('USD');
+            $table->unsignedFloat('USD');
         });
     }
 
