@@ -1,4 +1,12 @@
+- chmod -R 777 storage/logs/;
 - php artisan config:cache
+
+### demo-deploy (all in one)
+- docker build -t backend_api_crypto .
+- docker run -d -p 8000:80 --name backend_api_crypto backend_api_crypto
+
+
+
 
 ### запуск
 - docker-compose up -d --build
