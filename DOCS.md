@@ -9,6 +9,8 @@ priority: 0
 
 # backend_api_crypto
 
+Demo: https://backend-api-crypto.onrender.com/api/ethereum
+
 Тестовое задание Laravel
 Laravel v8.83.27 (PHP v8.1.2-1ubuntu2.11)
 
@@ -50,3 +52,7 @@ frontend: https://github.com/POMXARK/vue_2_cripto
 2. Перевести проект на lumen
 3. использовать opcache
 4. написать конфиги для mysql
+5. добавить документацию swagger (open api)
+6. поддержку nginx для демл
+7. использовать в конигах env переменные
+8. исправить маршруты
