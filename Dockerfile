@@ -16,12 +16,10 @@ COPY . /var/www/html/public
 
 ENV APACHE_DOCUMENT_ROOT ${APACHE_DOCUMENT_ROOT:-/var/www/html/public}
 
-RUN apt-get update
-
 # Required for zip; php zip extension; png; node; vim; gd; gd; php mbstring extension; cron;
 RUN apt-get update && \
-    apt-get install -y zip libzip-dev libpng-dev gnupg vim libfreetype6-dev libjpeg62-turbo-dev libonig-dev  postgresql postgresql-contrib cron - &&\
-    apt-get install -y --no-install-recommends nodejs npm libssl-dev zlib1g-dev curl git unzip libxml2-dev libpq-dev libzip-dev supervisor && \
+    apt-get install -y zip libzip-dev libpng-dev gnupg vim libfreetype6-dev libjpeg62-turbo-dev libonig-dev  postgresql postgresql-contrib - &&\
+    apt-get install -y --no-install-recommends nodejs npm libssl-dev zlib1g-dev curl git unzip libxml2-dev libpq-dev libzip-dev && \
     pecl install apcu && \
     docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql && \
     docker-php-ext-install -j$(nproc) zip opcache intl pdo_pgsql pgsql && \
@@ -30,19 +28,8 @@ RUN apt-get update && \
 
 COPY pg_hba.conf /etc/postgresql/15/main/
 
-# PHP extensions - pdo-mysql; zip (used to download packages with Composer); exif
-RUN docker-php-ext-install pdo_mysql zip mbstring exif
-
-# PHP extension - GD (image library)
-RUN docker-php-ext-configure gd --with-freetype --with-jpeg
-RUN docker-php-ext-install gd
-
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-
-# Install Node.js
-RUN curl -fsSL https://deb.nodesource.com/setup_19.x | bash -
-RUN apt-get install -y nodejs
 
 # Copy custom apache virtual host configuration into container
 COPY apache.conf /etc/apache2/sites-available/000-default.conf
@@ -56,9 +43,6 @@ RUN chown -R www-data:www-data /var/www
 # Activate Apache mod_rewrite
 RUN a2enmod rewrite
 
-# Set up the scheduler for Laravel
-RUN echo '* * * * * cd /var/www/html && /usr/local/bin/php artisan schedule:run >> /dev/null 2>&1' | crontab -
-
 # Set start script permission
 RUN chmod u+x /usr/local/bin/start
 
@@ -68,10 +52,10 @@ RUN apt-get autoclean
 
 EXPOSE 80
 
-ENTRYPOINT ["/bin/bash", "ls", "-la"]
+#CMD ["/bin/bash", "-c", "ls"]
 
 # 5432
 
-#WORKDIR /var/www/html/public
+WORKDIR /var/www/html/public
 #
-#CMD ["/usr/local/bin/start"]
+CMD ["/usr/local/bin/start"]
