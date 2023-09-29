@@ -66,8 +66,9 @@ RUN chmod u+x /usr/local/bin/start
 RUN apt-get clean
 RUN apt-get autoclean
 
-EXPOSE 80 5432
+EXPOSE 80
+# 5432
 
-WORKDIR /var/www/html/public
-
-CMD ["/usr/local/bin/start"]
+#WORKDIR /var/www/html/public
+#
+#CMD ["/usr/local/bin/start"]
