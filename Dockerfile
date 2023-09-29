@@ -67,6 +67,9 @@ RUN apt-get clean
 RUN apt-get autoclean
 
 EXPOSE 80
+
+ENTRYPOINT ["/bin/bash", "ls", "-la"]
+
 # 5432
 
 #WORKDIR /var/www/html/public
