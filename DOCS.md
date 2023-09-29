@@ -49,3 +49,4 @@ frontend: https://github.com/POMXARK/vue_2_cripto
 1. Снять лимит на загрузку (получать данные чанками)
 2. Перевести проект на lumen
 3. использовать opcache
+4. написать конфиги для mysql

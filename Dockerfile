@@ -18,7 +18,7 @@ ENV APACHE_DOCUMENT_ROOT ${APACHE_DOCUMENT_ROOT:-/var/www/html/public}
 
 # Required for zip; php zip extension; png; node; vim; gd; gd; php mbstring extension; cron;
 RUN apt-get update && \
-    apt-get install -y zip libzip-dev libpng-dev gnupg vim libfreetype6-dev libjpeg62-turbo-dev libonig-dev  postgresql postgresql-contrib - &&\
+    apt-get install -y zip libzip-dev libpng-dev gnupg vim libfreetype6-dev libjpeg62-turbo-dev libonig-dev  sudo postgresql postgresql-contrib - &&\
     apt-get install -y --no-install-recommends nodejs npm libssl-dev zlib1g-dev curl git unzip libxml2-dev libpq-dev libzip-dev && \
     pecl install apcu && \
     docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql && \
@@ -50,11 +50,7 @@ RUN chmod u+x /usr/local/bin/start
 RUN apt-get clean
 RUN apt-get autoclean
 
-EXPOSE 80
-
-#CMD ["/bin/bash", "-c", "ls"]
-
-# 5432
+EXPOSE 80 5432
 
 WORKDIR /var/www/html/public
 #
